@@ -1,4 +1,4 @@
-Flash arduino_esp.ino to the esp32 using arduino ide
+Flash tessera_esp.ino to the esp32 using arduino ide
 
 NOTE:
 Linux restricts access to USB ports by default. Run this once per session:

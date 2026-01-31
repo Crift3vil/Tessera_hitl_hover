@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="car_world">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-altimeter-system" name="gz::sim::systems::Altimeter"/>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="x500_with_sensors">
+      <self_collide>false</self_collide>
+      <pose>0 0 0.2 0 0 0</pose>
+      
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/PX4/models/x500</uri>
+      </include>
+
+      <link name="altimeter_link">
+        <sensor name="altimeter_sensor" type="altimeter">
+          <always_on>1</always_on>
+          <update_rate>50</update_rate>
+          <visualize>true</visualize>
+          <topic>/model/x500/altimeter</topic>
+        </sensor>
+      </link>
+
+      <joint name="altimeter_joint" type="fixed">
+        <parent>x500::base_link</parent> 
+        <child>altimeter_link</child>
+      </joint>
+    </model>
+
+  </world>
+</sdf>
